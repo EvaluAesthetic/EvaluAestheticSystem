@@ -12,15 +12,11 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,5 +39,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role', 'role_user');
+    }
+
+    public function professional()
+    {
+        return $this->hasOne(Professional::class, 'user_id', 'user_id');
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class, 'user_id', 'user_id');
     }
 }
