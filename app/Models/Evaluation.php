@@ -29,4 +29,8 @@ class Evaluation extends Model
     {
         return $this->hasMany(Plan::class, 'evaluation_id', 'evaluation_id');
     }
+    public function clientForm()
+    {
+        return $this->belongsTo(ClientForm::class, 'client_id', 'client_id');
+    }
 }

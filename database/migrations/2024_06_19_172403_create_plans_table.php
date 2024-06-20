@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->integer('evaluation_id')->index();
+            $table->text('description');
+            $table->text('plan');
             $table->timestamps();
         });
     }

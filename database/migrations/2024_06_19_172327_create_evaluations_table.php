@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id')->index();
+            $table->integer('client_form_id')->index();
             $table->integer('clinic_id')->index();
             $table->integer('professional_id')->index();
+            $table->integer('status');
+            $table->timestamp('approved_at');
             $table->timestamps();
         });
     }
