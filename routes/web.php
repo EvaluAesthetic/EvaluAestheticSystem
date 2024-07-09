@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientFormController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,4 +15,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('client_form', ClientFormController::class)->only([
+        'create', 'store',
+    ]);
 });
