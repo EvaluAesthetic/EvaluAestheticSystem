@@ -1,5 +1,6 @@
 <?php
 namespace Database\Seeders;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -9,6 +10,10 @@ class RoleUserTableSeeder extends Seeder
     {
         $roles = DB::table('roles')->pluck('id');
         $users = DB::table('users')->pluck('id');
+        DB::table('role_user')->insert([
+           'role_id' => 2,
+           'user_id' => 1,
+        ]);
 
         foreach ($users as $userId) {
             DB::table('role_user')->insert([

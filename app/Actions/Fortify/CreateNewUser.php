@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Professional;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -25,16 +26,31 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:15'],
             'password' => $this->passwordRules(),
+            'token' => ['required', 'string', 'exists:users,registration_token'],
+            'role_id' => ['required', 'integer', 'in:2,3,4'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         Log::debug('An informational message.', $input);
-
-        return User::create([
+        $user = User::where('registration_token', $input['token'])->firstOrFail();
+        $user->update([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
+            'registration_token' => null,
         ]);
+
+        if ($input['role_id'] === "3") {
+            Professional::create([
+                'user_id' => $user->id,
+                'clinic_id' => $input['clinic_id'],
+            ]);
+            $user->roles()->attach($input['role_id']);
+        } else if ($input['role_id'] === "4") {
+            $user->roles()->attach($input['role_id']);
+        }
+
+        return $user;
     }
 }
