@@ -26,19 +26,16 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:15'],
             'password' => $this->passwordRules(),
-            'token' => ['required', 'string', 'exists:users,registration_token'],
-            'role_id' => ['required', 'integer', 'in:2,3,4'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         Log::debug('An informational message.', $input);
         $user = User::where('registration_token', $input['token'])->firstOrFail();
-        $user->update([
+        $user->create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
-            'registration_token' => null,
         ]);
 
         if ($input['role_id'] === "3") {

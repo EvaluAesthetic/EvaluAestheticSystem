@@ -50,8 +50,10 @@ echo ".env file updated."
 echo "Step 5: Bringing up Docker containers"
 docker-compose up -d || { echo 'Failed to bring up Docker containers' ; exit 1; }
 
-echo "Step 6: Installing Composer dependencies"
+echo "Step 6: Installing Composer and npm dependencies"
 docker-compose exec app composer install || { echo 'Failed to install Composer dependencies' ; exit 1; }
+docker-compose exec app npm install
+
 
 echo "Generating the application key"
 if [ -z "$APP_KEY" ]; then
@@ -77,13 +79,16 @@ echo "Step 8: Clearing and caching configuration"
 docker-compose exec app php artisan config:clear || { echo 'Failed to clear config cache' ; exit 1; }
 docker-compose exec app php artisan config:cache || { echo 'Failed to cache config' ; exit 1; }
 docker-compose exec app php artisan route:clear || { echo 'Failed to clear route cache' ; exit 1; }
-docker-compose exec app php artisan route:cache || { echo 'Failed to cache routes' ; exit 1; }
+#docker-compose exec app php artisan route:cache || { echo 'Failed to cache routes' ; exit 1; }
 docker-compose exec app php artisan view:clear || { echo 'Failed to clear view cache' ; exit 1; }
 docker-compose exec app php artisan view:cache || { echo 'Failed to cache views' ; exit 1; }
 
-echo "Step 9: Rebuilding and starting Docker containers"
+echo "Step 9 building frontend assets"
+docker-compose exec app npm run build
+
+echo "Step 10: Rebuilding and starting Docker containers"
 docker-compose down
 docker-compose up -d --build
 
-echo "Step 10: Displaying the status of Docker containers"
+echo "Step 11: Displaying the status of Docker containers"
 docker-compose ps

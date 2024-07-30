@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Clinic;
-use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
-class ClinicController extends Controller
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,7 +34,7 @@ class ClinicController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Clinic $clinic)
+    public function show(Client $client)
     {
         //
     }
@@ -46,7 +42,7 @@ class ClinicController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Clinic $clinic)
+    public function edit(Client $client)
     {
         //
     }
@@ -54,7 +50,7 @@ class ClinicController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Clinic $clinic)
+    public function update(Request $request, Client $client)
     {
         //
     }
@@ -62,9 +58,8 @@ class ClinicController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Clinic $clinic)
+    public function destroy(Client $client)
     {
         //
     }
-
 }

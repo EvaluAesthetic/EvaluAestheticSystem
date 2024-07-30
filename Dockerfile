@@ -14,8 +14,13 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    npm
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Clean up the apt cache to reduce image size
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

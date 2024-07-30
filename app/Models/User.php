@@ -28,7 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'phone',
-        'registration_token',
     ];
 
     /**
@@ -66,6 +65,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function roles(){
         return $this->belongsToMany('App\Models\Role', 'role_user');
+    }
+
+    public function clients(){
+        return $this->belongsToMany('App\Models\Client', 'clients');
     }
 
     public function professional()

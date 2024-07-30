@@ -8,8 +8,6 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            <input type="hidden" name="token" value="{{ $token }}">
-            <input type="hidden" name="role_id" value="{{ $role_id }}">
             <input type="hidden" name="clinic_id" value="{{ request('clinic_id') }}">
 
             <div>

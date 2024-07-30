@@ -7,12 +7,15 @@ class ProfessionalsTableSeeder extends Seeder
 {
     public function run()
     {
-        $users = DB::table('users')->pluck('id');
         $clinics = DB::table('clinics')->pluck('id');
+        DB::table('professionals')->insert([
+            'user_id' => 1,
+            'clinic_id' => 1,
+        ]);
 
-        foreach (range(1, 10) as $index) {
+        foreach (range(2, 10) as $index) {
             DB::table('professionals')->insert([
-                'user_id' => $users->random(),
+                'user_id' => $index,
                 'clinic_id' => $clinics->random(),
             ]);
         }
