@@ -83,12 +83,15 @@ docker-compose exec app php artisan route:clear || { echo 'Failed to clear route
 docker-compose exec app php artisan view:clear || { echo 'Failed to clear view cache' ; exit 1; }
 docker-compose exec app php artisan view:cache || { echo 'Failed to cache views' ; exit 1; }
 
-echo "Step 9 building frontend assets"
+echo "Step 9 linking storage"
+docker-compose exec app php artisan storage:link
+
+echo "Step 10 building frontend assets"
 docker-compose exec app npm run build
 
-echo "Step 10: Rebuilding and starting Docker containers"
+echo "Step 11: Rebuilding and starting Docker containers"
 docker-compose down
 docker-compose up -d --build
 
-echo "Step 11: Displaying the status of Docker containers"
+echo "Step 12: Displaying the status of Docker containers"
 docker-compose ps

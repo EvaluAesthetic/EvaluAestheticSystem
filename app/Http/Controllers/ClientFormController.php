@@ -44,10 +44,9 @@ class ClientFormController extends Controller
             'medication' => 'nullable|string',
             'has_medication' => 'required|boolean',
             'occupation' => 'required|string|max:255',
-            'video_path' => 'required|string|max:255',
         ]);
-
         Log::debug('ClientForm Request Data', $request->all());
+        $videoPath = $request->file('video')->store('videos', 'public');
 
         try {
             ClientForm::create([
@@ -64,7 +63,7 @@ class ClientFormController extends Controller
                 'medication' => $request->medication,
                 'has_medication' => $request->has_medication,
                 'occupation' => $request->occupation,
-                'video_path' => $request->video_path,
+                'video_path' => $videoPath,
             ]);
 
             return redirect()->route('client_form.create')->with('success', 'Client form created successfully.');

@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Client;
 use App\Models\Professional;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -30,23 +31,18 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         Log::debug('An informational message.', $input);
-        $user = User::where('registration_token', $input['token'])->firstOrFail();
-        $user->create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
         ]);
 
-        if ($input['role_id'] === "3") {
-            Professional::create([
-                'user_id' => $user->id,
-                'clinic_id' => $input['clinic_id'],
-            ]);
-            $user->roles()->attach($input['role_id']);
-        } else if ($input['role_id'] === "4") {
-            $user->roles()->attach($input['role_id']);
-        }
+        Client::create([
+            'user_id' => $user->id,
+            'clinic_id' => $input['clinic_id'],
+        ]);
+        $user->roles()->attach(4);
 
         return $user;
     }

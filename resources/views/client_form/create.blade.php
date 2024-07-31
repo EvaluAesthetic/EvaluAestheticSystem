@@ -74,8 +74,8 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="video_path" class="block text-gray-700">Video Path</label>
-                    <input type="text" id="video_path" name="video_path" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required value="{{ old('video_path') }}">
+                    <label for="video" class="block text-gray-700">Video Upload</label>
+                    <input type="file" name="video" id="video" required>
                 </div>
 
                 <div class="flex items-center justify-between">
