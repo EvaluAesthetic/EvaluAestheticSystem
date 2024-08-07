@@ -44,6 +44,7 @@ class ClientFormController extends Controller
             'medication' => 'nullable|string',
             'has_medication' => 'required|boolean',
             'occupation' => 'required|string|max:255',
+            'video' => 'required|file|mimes:mp4,mov,ogg,qt|max:20000',
         ]);
         Log::debug('ClientForm Request Data', $request->all());
         $videoPath = $request->file('video')->store('videos', 'public');
@@ -105,4 +106,5 @@ class ClientFormController extends Controller
     {
         //
     }
+
 }

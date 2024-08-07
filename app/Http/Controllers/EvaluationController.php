@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClientForm;
 use App\Models\Evaluation;
+use App\Models\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EvaluationController extends Controller
 {
@@ -18,25 +21,46 @@ class EvaluationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $clientForm = ClientForm::with('user')->findOrFail($id);
+        return view('evaluations.create', compact('clientForm'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $request->validate([
+            'status' => 'required|integer',
+            'description' => 'required|string',
+            'plan' => 'required|string',
+        ]);
+
+        $evaluation = Evaluation::create([
+            'client_form_id' => $id,
+            'status' => $request->status,
+            'approved_at' => now(),
+            'professional_id' => Auth::user()->professional->id,
+            'clinic_id' => Auth::user()->professional->clinic_id,
+        ]);
+
+        Plan::create([
+            'evaluation_id' => $evaluation->id,
+            'description' => $request->description,
+            'plan' => $request->plan,
+        ]);
+        return redirect()->route('dashboard')->with('success', 'Evaluation submitted successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Evaluation $evaluation)
+    public function show($id)
     {
-        //
+        $evaluation = Evaluation::with('plan', 'clientForm')->findOrFail($id);
+        return view('evaluations.show', compact('evaluation'));
     }
 
     /**

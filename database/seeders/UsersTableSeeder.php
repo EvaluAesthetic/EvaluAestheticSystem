@@ -12,8 +12,25 @@ class UsersTableSeeder extends Seeder
         $faker = Faker::create();
 
         DB::table('users')->insert([
-            'name' => 'Test User',
+            'name' => 'Test User Clinic Admin',
             'email' => 'test@test.com',
+            'phone' => '123-456-7890',
+            'password' => Hash::make('password'), // You can change 'password' to your desired password
+            'email_verified_at' => now(),
+            'approved_at' => now(),
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Test User Client',
+            'email' => 'test2@test.com',
+            'phone' => '123-456-7890',
+            'password' => Hash::make('password'), // You can change 'password' to your desired password
+            'email_verified_at' => now(),
+            'approved_at' => now(),
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Test User Professional',
+            'email' => 'test3@test.com',
             'phone' => '123-456-7890',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),

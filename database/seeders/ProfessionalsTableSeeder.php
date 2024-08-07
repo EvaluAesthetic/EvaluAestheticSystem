@@ -7,17 +7,18 @@ class ProfessionalsTableSeeder extends Seeder
 {
     public function run()
     {
-        $clinics = DB::table('clinics')->pluck('id');
         DB::table('professionals')->insert([
             'user_id' => 1,
             'clinic_id' => 1,
         ]);
+        DB::table('professionals')->insert([
+            'user_id' => 3,
+            'clinic_id' => 1,
+        ]);
+        DB::table('clients')->insert([
+            'user_id' => 2,
+            'clinic_id' => 1,
+        ]);
 
-        foreach (range(2, 10) as $index) {
-            DB::table('professionals')->insert([
-                'user_id' => $index,
-                'clinic_id' => $clinics->random(),
-            ]);
-        }
     }
 }

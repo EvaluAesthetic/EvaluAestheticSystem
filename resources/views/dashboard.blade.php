@@ -13,6 +13,8 @@
     @elseif(Auth::user()->roles->contains('id', 3) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
         <h1 class="text-white">Content for professionals</h1>
 
+        <livewire:unevaluated-client-forms />
+
         {{-- View for Clients  --}}
     @elseif(Auth::user()->roles->contains('id', 4))
     <div class="py-12">

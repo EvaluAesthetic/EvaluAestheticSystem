@@ -8,18 +8,19 @@ class RoleUserTableSeeder extends Seeder
 {
     public function run()
     {
-        $roles = DB::table('roles')->pluck('id');
-        $users = DB::table('users')->pluck('id');
+
         DB::table('role_user')->insert([
            'role_id' => 2,
            'user_id' => 1,
         ]);
+        DB::table('role_user')->insert([
+           'role_id' => 4,
+           'user_id' => 2,
+        ]);
+        DB::table('role_user')->insert([
+           'role_id' => 3,
+           'user_id' => 3,
+        ]);
 
-        foreach ($users as $userId) {
-            DB::table('role_user')->insert([
-                'role_id' => $roles->random(),
-                'user_id' => $userId,
-            ]);
-        }
     }
 }

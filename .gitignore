@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/storage/app/public/videos
 .env
 .env.backup
 .env.production

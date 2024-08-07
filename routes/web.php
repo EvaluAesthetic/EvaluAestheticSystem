@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ClientFormController;
 use App\Http\Controllers\ClinicController;
+use App\Http\Controllers\EvaluationController;
+use App\Http\Middleware\EnsureUserIsClient;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -21,8 +23,11 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::resource('client_form', ClientFormController::class)->only([
-        'create', 'store',
-    ]);
-    Route::post('/clinic/generate-link/{role_id}', [ClinicController::class, 'generateRegistrationLink'])->name('clinic.generateLink');
+    Route::get('/client_form/{id}/evaluate', [EvaluationController::class, 'create'])
+        ->name('client_form.evaluate');
+
+    Route::post('/client_form/{id}/evaluate', [EvaluationController::class, 'store'])
+        ->name('client_form.evaluate.store');
+    Route::resource('client_form', ClientFormController::class)
+        ->only(['create', 'store']);
 });
