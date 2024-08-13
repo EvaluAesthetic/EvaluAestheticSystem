@@ -1,0 +1,29 @@
+# Ignore node modules
+node_modules
+
+# Ignore vendor folder
+vendor
+
+# Ignore log files and temporary files
+*.log
+tmp/
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore Docker files
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Ignore build and cache folders
+build/
+cache/
