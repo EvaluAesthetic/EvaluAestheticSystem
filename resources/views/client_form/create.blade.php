@@ -12,10 +12,10 @@
 
             <form method="POST" action="{{ route('client_form.store') }}" enctype="multipart/form-data">
                 @csrf
-
                 <div class="mb-4">
-                    <label for="clinic_id" class="block text-gray-700">Clinic ID</label>
-                    <input type="text" id="clinic_id" name="clinic_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+
+                    <label class="block text-gray-700" for="treatment_wishes">Ønsker til behandling</label>
+                    <textarea id="treatment_wishes" name="treatment_wishes" rows="4" cols="50"></textarea>
                 </div>
 
                 <div class="mb-4">
