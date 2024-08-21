@@ -11,7 +11,7 @@
         </div>
             {{-- View for Professionals  --}}
     @elseif(Auth::user()->roles->contains('id', 3) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
-        <h1 class="text-white">Content for professionals</h1>
+        <h1 class="text-black">Content for professionals</h1>
 
         <livewire:unevaluated-client-forms />
 
@@ -20,10 +20,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <x-welcome />
                 <div class="mt-6">
-                    <a href="{{ route('client_form.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Create Client Form
+                    <a href="{{ route('client_form.create') }}" class="inline-flex justify-center items-center text-center w-full px-4 py-2 bg-white border-black border rounded-md font-semibold text-xs uppercase tracking-widest">
+                        Indsend klient undersøgelse
                     </a>
                 </div>
             </div>

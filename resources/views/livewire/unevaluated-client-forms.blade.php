@@ -1,8 +1,8 @@
 <div>
-    <h1 class="text-white">Unevaluated Client Forms</h1>
+    <h1 class="text-black">Unevaluated Client Forms</h1>
 
     @if($unevaluatedClientForms->isEmpty())
-        <p class="text-white">No unevaluated client forms available.</p>
+        <p class="text-black">No unevaluated client forms available.</p>
     @else
         <table class="min-w-full bg-white">
             <thead>
