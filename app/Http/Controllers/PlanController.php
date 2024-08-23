@@ -37,7 +37,7 @@ class PlanController extends Controller
      */
     public function show(Evaluation $evaluation, Plan $plan)
     {
-        // If no specific plan is provided, fetch the latest plan
+        //If no specific plan is provided, fetch the latest plan
 //        if (is_null($plan)) {
 //            $plan = $evaluation->plans()->latest()->first();
 //        }
