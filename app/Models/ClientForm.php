@@ -15,14 +15,16 @@ class ClientForm extends Model
      */
     protected $guarded = ['id'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+
 
     public function evaluation()
     {
         return $this->hasOne(Evaluation::class, 'client_form_id', 'id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 
 }

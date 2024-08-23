@@ -23,8 +23,7 @@ class EvaluationController extends Controller
      */
     public function create($id)
     {
-        $clientForm = ClientForm::with('user')->findOrFail($id);
-        return view('evaluations.create', compact('clientForm'));
+
     }
 
     /**
@@ -32,26 +31,33 @@ class EvaluationController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $clientForm = ClientForm::findOrFail($id);
         $request->validate([
             'status' => 'required|integer',
-            'description' => 'required|string',
-            'plan' => 'required|string',
+            'description' => 'nullable|string',
+            'plan' => 'nullable|string',
         ]);
 
-        $evaluation = Evaluation::create([
-            'client_form_id' => $id,
-            'status' => $request->status,
-            'approved_at' => now(),
+        $evaluation = Evaluation::updateOrCreate(
+            [
+            'client_form_id' => $clientForm->id,
+            'clinic_id' => $clientForm->client->clinic_id,
             'professional_id' => Auth::user()->professional->id,
-            'clinic_id' => Auth::user()->professional->clinic_id,
-        ]);
+            ],
+            [
+                'status' => $request->input('status'),
+                'approved_at' => $request->input('status') == 1 ? now() : null,
+            ]);
 
-        Plan::create([
-            'evaluation_id' => $evaluation->id,
-            'description' => $request->description,
-            'plan' => $request->plan,
-        ]);
-        return redirect()->route('dashboard')->with('success', 'Evaluation submitted successfully.');
+        if ($request->input('status') == 1 && $request->input('plan')) {
+            Plan::create([
+                'evaluation_id' => $evaluation->id,
+                'description' => $request->input('description'),
+                'plan' => $request->input('plan'),
+            ]);
+        }
+        return redirect()->route('evaluation.plan.show', ['evaluation' => $evaluation->id])->with('success', 'Evaluation approved and plan ready for review.');
+
     }
 
     /**
@@ -59,8 +65,9 @@ class EvaluationController extends Controller
      */
     public function show($id)
     {
-        $evaluation = Evaluation::with('plan', 'clientForm')->findOrFail($id);
-        return view('evaluations.show', compact('evaluation'));
+        $clientForm = ClientForm::with('client.user')->findOrFail($id);
+        $evaluation = Evaluation::where('client_form_id', $clientForm->id)->with('plans')->first();
+        return view('evaluations.evaluate', compact('clientForm', 'evaluation'));
     }
 
     /**
@@ -86,4 +93,5 @@ class EvaluationController extends Controller
     {
         //
     }
+
 }

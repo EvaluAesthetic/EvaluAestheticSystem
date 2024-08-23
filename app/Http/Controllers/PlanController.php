@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evaluation;
 use App\Models\Plan;
 use Illuminate\Http\Request;
 
@@ -34,9 +35,20 @@ class PlanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Plan $plan)
+    public function show(Evaluation $evaluation, Plan $plan)
     {
-        //
+        // If no specific plan is provided, fetch the latest plan
+//        if (is_null($plan)) {
+//            $plan = $evaluation->plans()->latest()->first();
+//        }
+        dd($evaluation);
+        $evaluation = Evaluation::findOrFail($evaluation->id);
+        // If no plan is found, return a view or error message instead of redirecting
+        if (!$plan) {
+            return view('plans.no-plan', compact('evaluation'))->with('error', 'No plans available for this evaluation.');
+        }
+
+        return view('plans.show', compact('evaluation', 'plan'));
     }
 
     /**

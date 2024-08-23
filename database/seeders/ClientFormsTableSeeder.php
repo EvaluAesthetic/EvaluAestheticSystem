@@ -9,13 +9,10 @@ class ClientFormsTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $users = DB::table('users')->pluck('id');
-        $clinics = DB::table('clinics')->pluck('id');
 
-        foreach (range(1, 10) as $index) {
+        foreach (range(1, 5) as $index) {
             DB::table('client_forms')->insert([
-                'user_id' => $users->random(),
-                'clinic_id' => $clinics->random(),
+                'client_id' => $index,
                 'has_history' => $faker->boolean,
                 'history' => $faker->paragraph,
                 'disease' => $faker->word,
@@ -27,7 +24,7 @@ class ClientFormsTableSeeder extends Seeder
                 'medication' => $faker->word,
                 'has_medication' => $faker->boolean,
                 'occupation' => $faker->jobTitle,
-                'video_path' => $faker->url,
+                'video_path' => 'videos/NnGnd7styOnWkuE3qf8SbUqHlijCXPqrzxwrtG8U.mp4',
             ]);
         }
     }

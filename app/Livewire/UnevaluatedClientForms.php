@@ -18,8 +18,10 @@ class UnevaluatedClientForms extends Component
     {
         if (Auth::user()->professional) {
             $this->clinicId = Auth::user()->professional->clinic_id;
-            $this->unevaluatedClientForms = ClientForm::doesntHave('evaluation')
-                ->where('clinic_id', $this->clinicId)
+            $this->unevaluatedClientForms = ClientForm::whereHas('client', function($query) {
+                $query->where('clinic_id', $this->clinicId);
+                })
+                ->doesntHave('evaluation')
                 ->get();
         } else {
             $this->errorMessage = 'You are not authorized to view this content.';

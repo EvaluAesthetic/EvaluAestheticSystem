@@ -21,6 +21,12 @@ class RoleUserTableSeeder extends Seeder
            'role_id' => 3,
            'user_id' => 3,
         ]);
+        foreach (range(4, 7) as $index) {
+            DB::table('role_user')->insert([
+                'role_id' => 4,
+                'user_id' => $index,
+            ]);
+        }
 
     }
 }

@@ -20,6 +20,11 @@ class Clinic extends Model
         return $this->hasMany(Professional::class, 'clinic_id', 'clinic_id');
     }
 
+    public function clients()
+    {
+        return $this->hasMany(Client::class, 'clinic_id', 'clinic_id');
+    }
+
     public function evaluations()
     {
         return $this->hasMany(Evaluation::class, 'clinic_id', 'clinic_id');

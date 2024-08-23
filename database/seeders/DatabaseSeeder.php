@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             RoleUserTableSeeder::class,
             ClinicsTableSeeder::class,
+            ClientsTableSeeder::class,
             ProfessionalsTableSeeder::class,
             ClientFormsTableSeeder::class,
             EvaluationsTableSeeder::class,

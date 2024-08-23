@@ -68,12 +68,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function clients(){
-        return $this->belongsToMany('App\Models\Client', 'clients');
+        return $this->hasMany('App\Models\Client', 'user_id');
     }
 
-    public function clientForms(){
-        return $this->hasMany(ClientForm::class, 'user_id');
-    }
 
     public function professional()
     {

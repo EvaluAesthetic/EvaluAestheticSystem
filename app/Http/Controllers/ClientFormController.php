@@ -6,6 +6,7 @@ use App\Models\ClientForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ClientFormController extends Controller
 {
@@ -31,8 +32,8 @@ class ClientFormController extends Controller
     public function store(Request $request)
     {
         Log::debug('Store method called');
-        $request->validate([
-            'clinic_id' => 'required|integer|exists:clinics,id',
+        $validator = Validator::make($request->all(), [
+            'treatment_wishes' => 'required',
             'has_history' => 'required|boolean',
             'history' => 'nullable|string',
             'disease' => 'nullable|string',
@@ -46,13 +47,17 @@ class ClientFormController extends Controller
             'occupation' => 'required|string|max:255',
             'video' => 'required|file|mimes:mp4,mov,ogg,qt|max:20000',
         ]);
+        if ($validator->fails()) {
+            Log::error('Validation Errors', $validator->errors()->toArray());
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         Log::debug('ClientForm Request Data', $request->all());
         $videoPath = $request->file('video')->store('videos', 'public');
 
         try {
             ClientForm::create([
                 'user_id' => Auth::id(),
-                'clinic_id' => $request->clinic_id,
+                'clinic_id' => Auth::user()->clients->first()->clinic_id,
                 'has_history' => $request->has_history,
                 'history' => $request->history,
                 'disease' => $request->disease,

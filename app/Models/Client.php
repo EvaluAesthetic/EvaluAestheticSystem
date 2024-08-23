@@ -15,7 +15,18 @@ class Client extends Model
      */
     protected $guarded = ['id'];
 
-    public function users(){
-        return $this->belongsToMany('App\Models\User', 'clients');
+    public function user(){
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function forms()
+    {
+        return $this->hasMany(ClientForm::class);
+    }
+
+
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class, 'clinic_id', 'clinic_id');
     }
 }

@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
         {{-- View for Clinic Admins  --}}
     @if(Auth::user()->roles->contains('id', 2) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
         <div class="py-12">
@@ -11,8 +6,6 @@
         </div>
             {{-- View for Professionals  --}}
     @elseif(Auth::user()->roles->contains('id', 3) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
-        <h1 class="text-black">Content for professionals</h1>
-
         <livewire:unevaluated-client-forms />
 
         {{-- View for Clients  --}}
