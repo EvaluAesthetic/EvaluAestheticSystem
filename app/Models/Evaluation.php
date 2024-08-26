@@ -15,22 +15,27 @@ class Evaluation extends Model
      */
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'approved_at' => 'datetime',
+    ];
+
     public function clinic()
     {
-        return $this->belongsTo(Clinic::class, 'clinic_id', 'clinic_id');
+        return $this->belongsTo(Clinic::class, 'clinic_id');
     }
 
     public function professional()
     {
-        return $this->belongsTo(Professional::class, 'professional_id', 'professional_id');
+        return $this->belongsTo(Professional::class, 'professional_id');
     }
 
     public function plans()
     {
-        return $this->hasMany(Plan::class, 'evaluation_id', 'evaluation_id');
+        return $this->hasMany(Plan::class, 'evaluation_id');
     }
+
     public function clientForm()
     {
-        return $this->belongsTo(ClientForm::class, 'client_id', 'client_id');
+        return $this->belongsTo(ClientForm::class, 'client_form_id', 'id');
     }
 }
