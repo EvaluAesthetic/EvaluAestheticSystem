@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -61,6 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birthday' => 'date',
         ];
     }
     public function roles(){
@@ -75,5 +77,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function professional()
     {
         return $this->hasOne(Professional::class);
+    }
+
+    public function formatBirthday(string $type = null){
+        if(!$this->birthday){
+            return null;
+        }
+        if($type === 'string'){
+            $date = Carbon::parse($this->birthday)->locale('da');
+
+            $day = $date->day;
+            $month = $date->translatedFormat('F');
+            $year = $date->year;
+
+            return "{$day}. {$month}, {$year}";
+        }
+        $date = Carbon::parse($this->birthday)->format('d/m/Y');
+        return $date;
     }
 }
