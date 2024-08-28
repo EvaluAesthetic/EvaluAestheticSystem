@@ -17,17 +17,17 @@ class Professional extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function clinic()
     {
-        return $this->belongsTo(Clinic::class, 'clinic_id', 'clinic_id');
+        return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
     }
 
     public function evaluations()
     {
-        return $this->hasMany(Evaluation::class, 'professional_id', 'professional_id');
+        return $this->hasMany(Evaluation::class, 'professional_id', 'id');
     }
 
 }

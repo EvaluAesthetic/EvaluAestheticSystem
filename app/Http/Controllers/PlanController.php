@@ -35,21 +35,21 @@ class PlanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Evaluation $evaluation, Plan $plan)
+    public function show(Evaluation $evaluation, Plan $plan = null)
     {
-        //If no specific plan is provided, fetch the latest plan
-//        if (is_null($plan)) {
-//            $plan = $evaluation->plans()->latest()->first();
-//        }
-        dd($evaluation);
-        $evaluation = Evaluation::findOrFail($evaluation->id);
-        // If no plan is found, return a view or error message instead of redirecting
+        // If no specific plan is provided, fetch the latest plan
+        if (is_null($plan)) {
+            $plan = $evaluation->plans()->latest()->first();
+        }
+
+        // If no plan is found, return a view with an appropriate message
         if (!$plan) {
             return view('plans.no-plan', compact('evaluation'))->with('error', 'No plans available for this evaluation.');
         }
 
         return view('plans.show', compact('evaluation', 'plan'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

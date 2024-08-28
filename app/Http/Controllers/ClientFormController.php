@@ -56,8 +56,7 @@ class ClientFormController extends Controller
 
         try {
             ClientForm::create([
-                'user_id' => Auth::id(),
-                'clinic_id' => Auth::user()->clients->first()->clinic_id,
+                'client_id' => Auth::user()->clients->first()->id,
                 'has_history' => $request->has_history,
                 'history' => $request->history,
                 'disease' => $request->disease,
@@ -71,7 +70,6 @@ class ClientFormController extends Controller
                 'occupation' => $request->occupation,
                 'video_path' => $videoPath,
             ]);
-
             return redirect()->route('client_form.create')->with('success', 'Client form created successfully.');
         } catch (\Exception $e) {
             // Log any errors

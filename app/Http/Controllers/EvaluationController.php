@@ -50,13 +50,14 @@ class EvaluationController extends Controller
             ]);
 
         if ($request->input('status') == 1 && $request->input('plan')) {
-            Plan::create([
+            $plan = Plan::create([
                 'evaluation_id' => $evaluation->id,
                 'description' => $request->input('description'),
                 'plan' => $request->input('plan'),
             ]);
         }
-        return redirect()->route('evaluation.plan.show', ['evaluation' => $evaluation->id])->with('success', 'Evaluation approved and plan ready for review.');
+        $evaluation->load(['plans', 'clientForm', 'clientForm.client', 'clientForm.client.user', 'clientForm.client.clinic', 'professional.user']);
+        return redirect()->route('evaluation.plan.show', ['evaluation' => $evaluation, 'plan' => $plan])->with('success', 'Evaluation approved and plan ready for review.');
 
     }
 
