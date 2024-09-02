@@ -4,32 +4,26 @@
 
         <div class="space-y-4">
             <div class="p-4 bg-white shadow-sm rounded-lg border border-orange-200 transition-colors">
-                <h2 class="text-xl font-semibold mb-4">Client Information</h2>
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center w-full space-x-6">
-                        <div class="w-1/3 text-lg text-gray-900">
-                            <span class="font-semibold">Navn:</span> <span class="font-normal">{{ $evaluation->clientForm->client->user->name }}</span>
-                        </div>
-                        <div class="w-1/3 text-lg text-gray-900">
-                            <span class="font-semibold">Mail:</span> <span class="font-normal">{{ $evaluation->clientForm->client->user->email }}</span>
-                        </div>
-                        <div class="w-1/3 text-lg text-gray-900">
-                            <span class="font-semibold">Telefon:</span> <span class="font-normal">{{ $evaluation->clientForm->client->user->phone }}</span>
-                        </div>
-                    </div>
+                <h2 class="text-xl font-semibold mb-4">Klient Form Informationer</h2>
+
+                <!-- Flexbox container for client information -->
+                <div class="grid grid-cols-3 gap-y-4 text-lg text-gray-900 mb-6">
+                    <div><span class="font-semibold">Navn:</span> <span class="font-normal">{{ $evaluation->clientForm->client->user->name }}</span></div>
+                    <div><span class="font-semibold">Mail:</span> <span class="font-normal">{{ $evaluation->clientForm->client->user->email }}</span></div>
+                    <div><span class="font-semibold">Telefon:</span> <span class="font-normal">{{ $evaluation->clientForm->client->user->phone }}</span></div>
+                    <div><span class="font-semibold">Clinic:</span> <span class="font-normal">{{ $evaluation->clientForm->client->clinic->name }}</span></div>
+                    <div><span class="font-semibold">Evaluated By:</span> <span class="font-normal">{{ $evaluation->professional->user->name }}</span></div>
+                    <div><span class="font-semibold">Evaluation Date:</span> <span class="font-normal">{{ $evaluation->approved_at->format('d M, Y, H:i') }}</span></div>
                 </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="flex items-center w-full space-x-6">
-                        <div class="w-1/3 text-lg text-gray-900">
-                            <span class="font-semibold">Clinic:</span> <span class="font-normal">{{ $evaluation->clientForm->client->clinic->name }}</span>
-                        </div>
-                        <div class="w-1/3 text-lg text-gray-900">
-                            <span class="font-semibold">Evaluated By:</span> <span class="font-normal">{{ $evaluation->professional->user->name }}</span>
-                        </div>
-                        <div class="w-1/3 text-lg text-gray-900">
-                            <span class="font-semibold">Evaluation Date:</span> <span class="font-normal">{{ $evaluation->approved_at->format('d M, Y, H:i') }}</span>
-                        </div>
-                    </div>
+
+                <!-- Adjusted grid for medical and other details -->
+                <div class="grid grid-cols-3 gap-y-4 text-lg text-gray-900">
+                    <div><span class="font-semibold">Historik:</span> <span class="font-normal">{{ $evaluation->clientForm->has_history ? $evaluation->clientForm->history : 'Ingen' }}</span></div>
+                    <div><span class="font-semibold">Sygdomme:</span> <span class="font-normal">{{ $evaluation->clientForm->has_disease ? $evaluation->clientForm->disease : 'Ingen' }}</span></div>
+                    <div><span class="font-semibold">Allergier:</span> <span class="font-normal">{{ $evaluation->clientForm->has_allergy ? $evaluation->clientForm->allergy : 'Ingen' }}</span></div>
+                    <div><span class="font-semibold">Tidligere indgreb:</span> <span class="font-normal">{{ $evaluation->clientForm->had_previous_treatments ? $evaluation->clientForm->previous_treatments : 'Ingen' }}</span></div>
+                    <div><span class="font-semibold">Medicin:</span> <span class="font-normal">{{ $evaluation->clientForm->has_medication ? $evaluation->clientForm->medication : 'Ingen' }}</span></div>
+                    <div><span class="font-semibold">Beskæftigelse:</span> <span class="font-normal">{{ $evaluation->clientForm->occupation }}</span></div>
                 </div>
             </div>
 
@@ -48,7 +42,7 @@
         </div>
 
         <button id="copyButton" class="mt-4 bg-black hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-md shadow-lg focus:outline-none focus:shadow-outline">
-            Copy Plan to Clipboard
+            Copy All Details to Clipboard
         </button>
     </div>
 
@@ -56,6 +50,9 @@
     <script>
         document.getElementById('copyButton').addEventListener('click', function() {
             let content = `
+            Evaluation and Plan Details:
+
+            Klient Form Informationer:
             Navn: {{ $evaluation->clientForm->client->user->name }}
             Mail: {{ $evaluation->clientForm->client->user->email }}
             Telefon: {{ $evaluation->clientForm->client->user->phone }}
@@ -64,13 +61,20 @@
             Evaluated By: {{ $evaluation->professional->user->name }}
             Evaluation Date: {{ $evaluation->approved_at->format('d M, Y, H:i') }}
 
-            Description: {{ $plan->description }}
-            Plan:
-            {{ $plan->plan }}
-            `;
+            Historik: {{ $evaluation->clientForm->has_history ? $evaluation->clientForm->history : 'Ingen' }}
+            Sygdomme: {{ $evaluation->clientForm->has_disease ? $evaluation->clientForm->disease : 'Ingen' }}
+            Allergier: {{ $evaluation->clientForm->has_allergy ? $evaluation->clientForm->allergy : 'Ingen' }}
+            Tidligere indgreb: {{ $evaluation->clientForm->had_previous_treatments ? $evaluation->clientForm->previous_treatments : 'Ingen' }}
+            Medicin: {{ $evaluation->clientForm->has_medication ? $evaluation->clientForm->medication : 'Ingen' }}
+            Beskæftigelse: {{ $evaluation->clientForm->occupation }}
 
-            navigator.clipboard.writeText(content).then(function() {
-                alert('Plan content copied to clipboard!');
+            Plan Details:
+            Description: {{ $plan->description }}
+            Plan: {{ $plan->plan }}
+            `.replace(/^\s+/gm, ''); // Remove leading whitespace on each line
+
+            navigator.clipboard.writeText(content.trim()).then(function() {
+                alert('All details copied to clipboard!');
             }).catch(function(error) {
                 alert('Failed to copy content: ' + error);
             });
