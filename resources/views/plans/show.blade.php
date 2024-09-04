@@ -71,7 +71,7 @@
             Plan Details:
             Description: {{ $plan->description }}
             Plan: {{ $plan->plan }}
-            `.replace(/^\s+/gm, ''); // Remove leading whitespace on each line
+            `.replace(/^\s+/gm, '');
 
             navigator.clipboard.writeText(content.trim()).then(function() {
                 alert('All details copied to clipboard!');

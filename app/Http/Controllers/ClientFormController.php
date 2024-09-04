@@ -70,11 +70,11 @@ class ClientFormController extends Controller
                 'occupation' => $request->occupation,
                 'video_path' => $videoPath,
             ]);
-            return redirect()->route('client_form.create')->with('success', 'Client form created successfully.');
+            return redirect()->route('dashboard')->with('success', 'Client form created successfully.');
         } catch (\Exception $e) {
             // Log any errors
             Log::error('ClientForm Creation Error', ['error' => $e->getMessage()]);
-            return redirect()->route('client_form.create')->with('error', 'There was an error creating the client form.');
+            return redirect()->route('dashboard')->with('error', 'There was an error creating the client form.');
         }
     }
 
