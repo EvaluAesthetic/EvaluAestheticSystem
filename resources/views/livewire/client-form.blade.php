@@ -1,7 +1,11 @@
 <div class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="container mx-auto p-4 max-w-lg">
         <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Indsend klient oplysninger</h2>
+            @if(!$recentFormSubmitted)
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Indsend klient oplysninger</h2>
+            @elseif($recentFormSubmitted)
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Vent svar på klient form</h2>
+            @endif
 
             <!-- Display Success or Error Message -->
             @if(session('success'))
@@ -17,9 +21,17 @@
             @endif
 
             <!-- Check if a form has been submitted recently -->
-            @if ($recentFormSubmitted)
+            @if ($recentFormSubmitted && $evaluation && $evaluation['status'] == 1)
+                <div class="text-center p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                    Dine oplysninger er blevet behandlet og du er godkendt til næste forløb. Please se din mail for yderligere oplysninger.
+                </div>
+            @elseif ($recentFormSubmitted && $evaluation && $evaluation['status'] == 2)
+                <div class="text-center p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    Dine oplysninger er blevet behandlet og du er blevet afvist. Ring til klinikken for at høre nærmere.
+                </div>
+            @elseif ($recentFormSubmitted)
                 <div class="text-center p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
-                    Your form is being processed. Please wait for further updates.
+                    Dine oplysninger bliver behandlet. Svaret kommer her om den er godkendt eller ej.
                 </div>
             @else
                 <!-- Livewire Form -->
@@ -106,6 +118,14 @@
                     @error('occupation')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
+
+                    <div class="my-6">
+                        <h2 class="text-lg font-semibold mb-3 text-gray-700">Demonstration af hvordan video skal filmes: </h2>
+                        <video controls class="w-full rounded-lg shadow-md">
+                            <source src="{{ asset('videos/NnGnd7styOnWkuE3qf8SbUqHlijCXPqrzxwrtG8U.mp4') }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
 
                     <div class="mb-6">
                         <label for="video" class="block text-gray-700 font-semibold">Upload video</label>
