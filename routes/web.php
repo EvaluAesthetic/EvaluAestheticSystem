@@ -4,7 +4,7 @@ use App\Http\Controllers\ClientFormController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\PlanController;
-use App\Http\Middleware\EnsureUserIsClient;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -20,17 +20,19 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
-    })->name('dashboard');
+    })->name('dashboard'); // all roles
 
-    Route::get('/client_form/{id}/evaluate', [EvaluationController::class, 'show'])
-        ->name('client_form.evaluate');
+    Route::middleware(['checkRole:2,3'])->group(function () {
+        Route::get('/client_form/{id}/evaluate', [EvaluationController::class, 'show'])
+            ->name('client_form.evaluate'); //Only professionals
 
-    Route::post('/client_form/{id}/evaluate', [EvaluationController::class, 'store'])
-        ->name('client_form.evaluate.store');
+        Route::post('/client_form/{id}/evaluate', [EvaluationController::class, 'store'])
+            ->name('client_form.evaluate.store'); //Only professionals
+        Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluation.index');
 
-    Route::get('/evaluation/{evaluation}/plan/{plan}', [PlanController::class, 'show'])->name('evaluation.plan.show');
-
+        Route::get('/evaluation/{evaluation}/plan/{plan}', [PlanController::class, 'show'])->name('evaluation.plan.show');
+    });
 
     Route::resource('client_form', ClientFormController::class)
-        ->only(['create', 'store']);
+        ->only(['create', 'store'])->middleware('checkRole:4');
 });

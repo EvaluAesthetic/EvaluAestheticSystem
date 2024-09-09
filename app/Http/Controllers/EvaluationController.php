@@ -15,7 +15,10 @@ class EvaluationController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $id = $user->professional->clinic_id;
+        $evaluations = Evaluation::where('clinic_id', $id)->get();
+        return view('evaluations.show', compact('evaluations'));
     }
 
     /**

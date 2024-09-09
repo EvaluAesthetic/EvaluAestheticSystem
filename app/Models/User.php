@@ -95,4 +95,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $date = Carbon::parse($this->birthday)->format('d/m/Y');
         return $date;
     }
+
+    public function hasRole($roleId = null)
+    {
+        // Check for a specific role
+        if ($roleId) {
+            // If a single role ID is provided, check if the user has that role
+            return $this->roles()->where('id', $roleId)->exists();
+        }
+
+        // If no role ID is provided, return all role IDs associated with the user
+        return $this->roles()->pluck('id')->toArray();
+    }
 }
