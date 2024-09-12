@@ -37,5 +37,9 @@ class ClientsTableSeeder extends Seeder
             'user_id' => 7,
             'clinic_id' => 1,
         ]);
+        DB::table('clients')->insert([
+            'user_id' => 9,
+            'clinic_id' => 2,
+        ]);
     }
 }

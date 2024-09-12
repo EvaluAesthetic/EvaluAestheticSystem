@@ -16,11 +16,13 @@
                         {{ __('Hjem') }}
                     </x-nav-link>
                 </div>
+                @if(Auth::user()->roles->contains('id', 2) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('evaluation.index') }}" :active="request()->routeIs('evaluation.index')">
                         {{ __('Tidligere undersøgelser') }}
                     </x-nav-link>
                 </div>
+                @endif
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">

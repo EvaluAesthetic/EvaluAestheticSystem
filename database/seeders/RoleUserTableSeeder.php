@@ -27,6 +27,14 @@ class RoleUserTableSeeder extends Seeder
                 'user_id' => $index,
             ]);
         }
+        DB::table('role_user')->insert([
+            'role_id' => 1,
+            'user_id' => 8,
+        ]);
+        DB::table('role_user')->insert([
+            'role_id' => 4,
+            'user_id' => 9,
+        ]);
 
     }
 }

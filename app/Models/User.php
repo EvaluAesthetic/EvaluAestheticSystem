@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Filament\Panel;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
@@ -67,17 +69,17 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
     public function roles(){
-        return $this->belongsToMany('App\Models\Role', 'role_user');
+        return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
     }
 
     public function clients(){
-        return $this->hasMany('App\Models\Client', 'user_id');
+        return $this->hasMany(Client::class, 'user_id', 'id');
     }
 
 
     public function professional()
     {
-        return $this->hasOne(Professional::class);
+        return $this->hasOne(Professional::class, 'user_id', 'id');
     }
 
     public function formatBirthday(string $type = null){
@@ -102,10 +104,33 @@ class User extends Authenticatable implements MustVerifyEmail
         // Check for a specific role
         if ($roleId) {
             // If a single role ID is provided, check if the user has that role
-            return $this->roles()->where('id', $roleId)->exists();
+            return $this->roles()->where('roles.id', $roleId)->exists();
         }
 
         // If no role ID is provided, return all role IDs associated with the user
-        return $this->roles()->pluck('id')->toArray();
+        return $this->roles()->pluck('roles.id')->toArray();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Allow access for Admin role (role_id = 1)
+        if ($this->hasRole(1)) {
+            return true;
+        }
+
+        // Allow access for Clinic Admin role (role_id = 2) only if they are associated with a professional and clinic
+        if ($this->hasRole(2) && $this->professional()->exists()) {
+            return true;
+        }
+
+        // Deny access for others
+        return false;
+    }
+
+    public static function getUsersByRole($roleId)
+    {
+        return User::whereHas('roles', function ($query) use ($roleId) {
+            $query->where('role_id', $roleId);
+        })->get();
     }
 }

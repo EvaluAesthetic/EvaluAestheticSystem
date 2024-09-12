@@ -7,6 +7,19 @@
                 <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Vent svar på klient form</h2>
             @endif
 
+            <!-- Clinic Selection Dropdown (only if there are multiple clinics) -->
+            @if ($showDropdown)
+                <div class="mb-4">
+                    <label for="clinic" class="block text-gray-700 font-semibold mb-2">Vælg klinik:</label>
+                    <select id="clinic" wire:model="selectedClinicId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-0 focus:border-orange-200">
+                        <option value="">Vælg en klinik</option>
+                        @foreach($clinics as $id => $name)
+                            <option value="{{ $id }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
+
             <!-- Display Success or Error Message -->
             @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -19,7 +32,6 @@
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
-
             <!-- Check if a form has been submitted recently -->
             @if ($recentFormSubmitted && $evaluation && $evaluation['status'] == 1)
                 <div class="text-center p-4 bg-green-100 border border-green-400 text-green-700 rounded">

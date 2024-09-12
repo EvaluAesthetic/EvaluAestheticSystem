@@ -75,6 +75,25 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
+        DB::table('users')->insert([
+            'name' => 'Test User Admin',
+            'email' => 'admin@test.com',
+            'phone' => '123-456-7890',
+            'birthday' => '1977-07-22',
+            'password' => Hash::make('password'), // You can change 'password' to your desired password
+            'email_verified_at' => now(),
+            'approved_at' => now(),
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Test User Another Clinic',
+            'email' => 'clinic@test.com',
+            'phone' => '123-456-7890',
+            'birthday' => '1977-07-22',
+            'password' => Hash::make('password'), // You can change 'password' to your desired password
+            'email_verified_at' => now(),
+            'approved_at' => now(),
+        ]);
 
 
         foreach (range(1, 10) as $index) {
