@@ -18,7 +18,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function getEloquentQuery(): Builder
     {
@@ -26,17 +26,20 @@ class UserResource extends Resource
 
         $query = parent::getEloquentQuery();
 
-        if($user->hasRole(2) && $user->professional) {
+        if ($user->hasRole(2) && $user->professional) {
             $clinicId = $user->professional->clinic_id;
-            return $query
-                ->whereHas('professional', function (Builder $query) use ($clinicId) {
+
+            $query->where(function (Builder $query) use ($clinicId) {
+                $query->whereHas('professional', function (Builder $query) use ($clinicId) {
                     $query->where('clinic_id', $clinicId);
                 })
-                ->orWhereHas('clients', function (Builder $query) use ($clinicId) {
-                    $query->where('clinic_id', $clinicId);
-                });
+                    ->orWhereHas('clients', function (Builder $query) use ($clinicId) {
+                        $query->where('clinic_id', $clinicId);
+                    });
+            })->distinct();
         }
-        if($user->hasRole(1)){
+
+        if ($user->hasRole(1)) {
             return $query;
         }
 
@@ -47,36 +50,42 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\DateTimePicker::make('approved_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('two_factor_secret')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('two_factor_recovery_codes')
-                    ->columnSpanFull(),
-                Forms\Components\DateTimePicker::make('two_factor_confirmed_at'),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Name'),
+                        Forms\Components\TextInput::make('phone')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Phone'),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Email'),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->required()
+                            ->maxLength(255)
+                            ->label('Password'),
+                        Forms\Components\DatePicker::make('birthday')
+                            ->label('Birthday'),
+                    ]),
+                Forms\Components\Hidden::make('email_verified_at'),
+                Forms\Components\Hidden::make('approved_at'),
                 Forms\Components\TextInput::make('current_team_id')
                     ->numeric()
-                    ->default(null),
+                    ->default(null)
+                    ->hidden(),
                 Forms\Components\TextInput::make('profile_photo_path')
                     ->maxLength(2048)
-                    ->default(null),
-                Forms\Components\DatePicker::make('birthday'),
-            ]);
+                    ->default(null)
+                    ->hidden(),
+            ])
+            ->columns(2);
     }
 
     public static function table(Table $table): Table
@@ -146,6 +155,7 @@ class UserResource extends Resource
     {
         return [
             //
+            RelationManagers\RolesRelationManager::class,
         ];
     }
 

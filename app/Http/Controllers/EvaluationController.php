@@ -67,10 +67,15 @@ class EvaluationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(ClientForm $client_form)
     {
-        $clientForm = ClientForm::with('client.user')->findOrFail($id);
-        $evaluation = Evaluation::where('client_form_id', $clientForm->id)->with('plans')->first();
+
+        $clientForm = $client_form->load('client.user');
+
+        $evaluation = Evaluation::where('client_form_id', $clientForm->id)
+            ->with('plans')
+            ->first();
+
         return view('evaluations.evaluate', compact('clientForm', 'evaluation'));
     }
 

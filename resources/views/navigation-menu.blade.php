@@ -16,12 +16,20 @@
                         {{ __('Hjem') }}
                     </x-nav-link>
                 </div>
-                @if(Auth::user()->roles->contains('id', 2) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
+                @if(Auth::user()->professional && Auth::user()->professional->clinic_id != null && Auth::user()->roles->contains('id', 2) || Auth::user()->roles->contains('id', 3))
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('evaluation.index') }}" :active="request()->routeIs('evaluation.index')">
                         {{ __('Tidligere undersøgelser') }}
                     </x-nav-link>
                 </div>
+                @endif
+
+                @if(Auth::user()->roles->contains('id', 2) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('filament.admin.pages.dashboard')" :active="request()->routeIs('admin')">
+                            {{ __('Admin') }}
+                        </x-nav-link>
+                    </div>
                 @endif
             </div>
 

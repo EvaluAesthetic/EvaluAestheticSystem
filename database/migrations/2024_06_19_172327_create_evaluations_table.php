@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_form_id')->index();
-            $table->integer('clinic_id')->index();
-            $table->integer('professional_id')->index();
+            $table->unsignedBigInteger('client_form_id');
+            $table->unsignedBigInteger('clinic_id');
+            $table->unsignedBigInteger('professional_id')->nullable();
             $table->integer('status');
             $table->timestamp('approved_at');
             $table->timestamps();

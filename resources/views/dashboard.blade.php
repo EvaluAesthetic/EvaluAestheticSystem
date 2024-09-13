@@ -1,11 +1,6 @@
 <x-app-layout>
-        {{-- View for Clinic Admins  --}}
-    @if(Auth::user()->roles->contains('id', 2) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
-        <div class="py-12">
-            <h1 class="text-white">Clinic Admin View</h1>
-        </div>
-            {{-- View for Professionals  --}}
-    @elseif(Auth::user()->roles->contains('id', 3) && Auth::user()->professional && Auth::user()->professional->clinic_id != null)
+            {{-- View for Professionals & Clinic Admins  --}}
+    @if(Auth::user()->professional && Auth::user()->professional->clinic_id != null && Auth::user()->roles->contains('id', 2) || Auth::user()->roles->contains('id', 3))
         <livewire:unevaluated-client-forms />
 
         {{-- View for Clients  --}}

@@ -16,6 +16,6 @@ class Role extends Model
     protected $guarded = ['id'];
 
     public function users(){
-        return $this->belongsToMany('App\Models\User', 'role_user');
+        return $this->belongsToMany('App\Models\User', 'role_user', 'role_id', 'user_id');
     }
 }

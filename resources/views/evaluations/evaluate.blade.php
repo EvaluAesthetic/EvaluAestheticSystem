@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-4xl mx-auto px-4">
+    <div class="max-w-4xl mx-auto px-4 mb-8 pb-8">
         <h1 class="text-2xl font-semibold text-black my-6 mx-2">Evaluer Klient</h1>
 
         <!-- Client Form Details -->
@@ -9,7 +9,7 @@
             <p><strong class="text-gray-700">Mail:</strong> {{ $clientForm->client->user->email }}</p>
             <p><strong class="text-gray-700">Telefon:</strong> {{ $clientForm->client->user->phone }}</p>
             <p><strong class="text-gray-700">Fødsels dato:</strong> {{ $clientForm->client->user->formatBirthday('string')}}</p>
-
+            <p><strong class="text-gray-700">Ønsker til behandling:</strong> {{ $clientForm->treatment_wishes }}</p>
             <p><strong class="text-gray-700">Historik: </strong>@if(!$clientForm->has_history)Ingen</p>
             @else
                 <p>{{$clientForm->history}}</p>

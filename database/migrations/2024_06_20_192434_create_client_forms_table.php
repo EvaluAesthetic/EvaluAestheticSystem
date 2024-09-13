@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('client_forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->index();
+            $table->unsignedBigInteger('client_id');
             $table->boolean('has_history')->default(false);
             $table->text('history')->nullable();
             $table->text('disease')->nullable();
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('occupation');
             $table->string('video_path');
             $table->timestamps();
+
         });
     }
 

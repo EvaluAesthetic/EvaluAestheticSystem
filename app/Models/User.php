@@ -32,6 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'password',
         'phone',
         'birthday',
+        'email_verified_at',
+        'approved_at',
     ];
 
     /**
@@ -64,6 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     {
         return [
             'email_verified_at' => 'datetime',
+            'approved_at' => 'datetime',
             'password' => 'hashed',
             'birthday' => 'date',
         ];
@@ -99,16 +102,24 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $date;
     }
 
-    public function hasRole($roleId = null)
+    public function hasRole($roleId = null): bool
     {
-        // Check for a specific role
-        if ($roleId) {
-            // If a single role ID is provided, check if the user has that role
+        if (is_array($roleId)) {
+            // Check if the user has any of the roles in the provided array
+            return $this->roles()->whereIn('roles.id', $roleId)->exists();
+        } elseif ($roleId) {
+            // Check if the user has a single specific role
             return $this->roles()->where('roles.id', $roleId)->exists();
         }
 
         // If no role ID is provided, return all role IDs associated with the user
         return $this->roles()->pluck('roles.id')->toArray();
+    }
+
+    // Check if the user has any of the provided roles
+    public function hasAnyRole(array $roleIds): bool
+    {
+        return $this->hasRole($roleIds);
     }
 
     public function canAccessPanel(Panel $panel): bool

@@ -12,18 +12,18 @@ class UsersTableSeeder extends Seeder
         $faker = Faker::create();
 
         DB::table('users')->insert([
-            'name' => 'Test User Clinic Admin',
+            'name' => $faker->name . ' Clinic Admin',
             'email' => 'test@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1986-07-28',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
         DB::table('users')->insert([
-            'name' => 'Test User Client',
+            'name' =>  $faker->name . ' Client',
             'email' => 'test2@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1966-04-22',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -31,54 +31,54 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Test User Professional',
+            'name' => $faker->name . ' Professional',
             'email' => 'test3@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1996-02-23',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
         DB::table('users')->insert([
-            'name' => 'Test User Client 2',
+            'name' => $faker->name . ' Client',
             'email' => 'test4@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1980-10-15',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
         DB::table('users')->insert([
-            'name' => 'Test User Client 3',
+            'name' => $faker->name . ' Client',
             'email' => 'test5@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1990-12-24',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
         DB::table('users')->insert([
-            'name' => 'Test User Client 4',
+            'name' => $faker->name . ' Client',
             'email' => 'test6@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1977-11-23',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
         DB::table('users')->insert([
-            'name' => 'Test User Client 5',
+            'name' => $faker->name . ' Client',
             'email' => 'test7@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1994-03-25',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
         DB::table('users')->insert([
-            'name' => 'Test User Admin',
+            'name' => $faker->name . ' Admin',
             'email' => 'admin@test.com',
-            'phone' => '123-456-7890',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1977-07-22',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -86,9 +86,9 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Test User Another Clinic',
-            'email' => 'clinic@test.com',
-            'phone' => '123-456-7890',
+            'name' => $faker->name . ' Admin Another Clinic',
+            'email' => 'clinicAdmin@test.com',
+            'phone' => $faker->e164PhoneNumber(),
             'birthday' => '1977-07-22',
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -98,8 +98,8 @@ class UsersTableSeeder extends Seeder
 
         foreach (range(1, 10) as $index) {
             DB::table('users')->insert([
-                'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail,
+                'name' => $faker->name . ' Client',
+                'email' => 'clinic' . $index . '@test.com',
                 'phone' => $faker->e164PhoneNumber(),
                 'birthday' => $faker->date(),
                 'password' => Hash::make('password'), // or $faker->password,
@@ -107,5 +107,15 @@ class UsersTableSeeder extends Seeder
                 'approved_at' => $faker->dateTime(),
             ]);
         }
+
+        DB::table('users')->insert([
+            'name' => 'Test Professional Another Clinic',
+            'email' => 'clinicWorker@test.com',
+            'phone' => $faker->e164PhoneNumber(),
+            'birthday' => '1977-07-22',
+            'password' => Hash::make('password'), // You can change 'password' to your desired password
+            'email_verified_at' => now(),
+            'approved_at' => now(),
+        ]);
     }
 }

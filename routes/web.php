@@ -23,14 +23,14 @@ Route::middleware([
     })->name('dashboard'); // all roles
 
     Route::middleware(['checkRole:2,3'])->group(function () {
-        Route::get('/client_form/{id}/evaluate', [EvaluationController::class, 'show'])
+        Route::get('/client-form/{client_form:slug}/evaluate', [EvaluationController::class, 'show'])
             ->name('client_form.evaluate'); //Only professionals
 
-        Route::post('/client_form/{id}/evaluate', [EvaluationController::class, 'store'])
+        Route::post('/client-form/{id}/evaluate', [EvaluationController::class, 'store'])
             ->name('client_form.evaluate.store'); //Only professionals
         Route::get('/evaluations', [EvaluationController::class, 'index'])->name('evaluation.index');
 
-        Route::get('/evaluation/{evaluation}/plan/{plan}', [PlanController::class, 'show'])->name('evaluation.plan.show');
+        Route::get('/evaluation/{evaluation:slug}/plan/{plan:slug}', [PlanController::class, 'show'])->name('evaluation.plan.show');
     });
 
     Route::resource('client_form', ClientFormController::class)

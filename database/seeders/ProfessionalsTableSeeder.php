@@ -16,5 +16,15 @@ class ProfessionalsTableSeeder extends Seeder
             'clinic_id' => 1,
         ]);
 
+        DB::table('professionals')->insert([
+            'user_id' => 9,
+            'clinic_id' => 2,
+        ]);
+
+        DB::table('professionals')->insert([
+            'user_id' => 20,
+            'clinic_id' => 2,
+        ]);
+
     }
 }

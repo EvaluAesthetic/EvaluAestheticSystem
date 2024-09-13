@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('evaluation_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('evaluation_id');
             $table->text('description');
             $table->text('plan');
             $table->timestamps();
+
+            $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');
         });
     }
 

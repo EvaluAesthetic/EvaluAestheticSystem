@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Evaluation extends Model
 {
     use HasFactory;
+    use HasSlug;
     /**
      * The attributes that aren't mass assignable.
      *
@@ -18,6 +21,20 @@ class Evaluation extends Model
     protected $casts = [
         'approved_at' => 'datetime',
     ];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(function () {
+                return $this->professional->user->name;
+            })
+            ->saveSlugsTo('slug');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function clinic()
     {

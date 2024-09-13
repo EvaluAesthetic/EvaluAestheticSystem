@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class ClientForm extends Model
 {
     use HasFactory;
+    use HasSlug;
     /**
      * The attributes that aren't mass assignable.
      *
@@ -15,7 +18,19 @@ class ClientForm extends Model
      */
     protected $guarded = ['id'];
 
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(function () {
+                return $this->client->user->name;
+            })
+            ->saveSlugsTo('slug');
+    }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     public function evaluation()
     {
