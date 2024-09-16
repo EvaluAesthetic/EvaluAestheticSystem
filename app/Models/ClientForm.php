@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -40,6 +41,10 @@ class ClientForm extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function getVideoURL(){
+        return Storage::disk('s3')->temporaryUrl($this->video_path, now()->addMinutes(10));
     }
 
 }

@@ -26,11 +26,10 @@
             <p><strong class="text-gray-700">Allergier: </strong>@if(!$clientForm->has_medication)Ingen @else{{$clientForm->medication}} @endif</p>
 
             <p><strong class="text-gray-700">Beskæftigelse:</strong> {{ $clientForm->occupation}}</p>
-
             <div class="mt-6">
                 <h2 class="text-lg font-semibold mb-3 text-gray-700">Video: </h2>
                     <video controls class="w-full rounded-lg shadow-md">
-                        <source src="{{ asset($clientForm->video_path) }}" type="video/mp4">
+                        <source src="{{ $clientForm->getVideoURL() }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
             </div>

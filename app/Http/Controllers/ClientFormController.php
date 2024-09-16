@@ -52,7 +52,7 @@ class ClientFormController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         Log::debug('ClientForm Request Data', $request->all());
-        $videoPath = $request->file('video')->store('videos', 'public');
+        $videoPath = $request->file('video')->store('videos', 's3');
 
         try {
             ClientForm::create([
