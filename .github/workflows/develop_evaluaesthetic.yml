@@ -1,0 +1,71 @@
+name: Build and deploy Laravel app to Azure Web App - EvaluAesthetic
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, xml, bcmath, json, curl, tokenizer, ctype, openssl, fileinfo
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+      - name: Generate optimized Laravel autoload files
+        run: php artisan optimize
+
+      - name: Set Storage Permissions
+        run: chmod -R 775 storage bootstrap/cache
+
+      - name: Zip artifact for deployment
+        run: zip -r release.zip ./*
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-app
+          path: release.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write # This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: php-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+    
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
+        with:
+          app-name: 'EvaluAesthetic'
+          slot-name: 'Production'
+          package: .
