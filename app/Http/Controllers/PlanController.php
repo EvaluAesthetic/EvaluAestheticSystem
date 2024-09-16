@@ -37,12 +37,10 @@ class PlanController extends Controller
      */
     public function show(Evaluation $evaluation, Plan $plan = null)
     {
-        // If no specific plan is provided, fetch the latest plan
         if (is_null($plan)) {
             $plan = $evaluation->plans()->latest()->first();
         }
 
-        // If no plan is found, return a view with an appropriate message
         if (!$plan) {
             return view('plans.no-plan', compact('evaluation'))->with('error', 'No plans available for this evaluation.');
         }
