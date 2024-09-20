@@ -61,7 +61,7 @@ class Prodseeder extends Seeder
         ]);
 
         //Klient brugere
-        foreach (range(1, 10) as $index) {
+        foreach (range(1, 20) as $index) {
             DB::table('users')->insert([
                 'name' => 'Klient Bruger' . $index,
                 'email' => 'klient' . $index . '@test.com',
@@ -82,7 +82,7 @@ class Prodseeder extends Seeder
         }
 
         //Arbejder bruger
-        foreach (range(1, 5) as $index) {
+        foreach (range(1, 10) as $index) {
             DB::table('users')->insert([
                 'name' => 'Behandler Bruger' . $index,
                 'email' => 'behandler' . $index . '@test.com',
@@ -94,10 +94,10 @@ class Prodseeder extends Seeder
             ]);
             DB::table('role_user')->insert([
                 'role_id' => 3,
-                'user_id' => 12 + $index,
+                'user_id' => 22 + $index,
             ]);
             DB::table('professionals')->insert([
-                'user_id' => 12 + $index,
+                'user_id' => 22 + $index,
                 'clinic_id' => 1,
             ]);
         }
