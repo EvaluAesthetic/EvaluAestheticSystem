@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="mb-6 @if(!old('has_history')) hidden @endif" id="history_div">
-                        <label for="history" class="block text-gray-700 font-semibold mb-2">Historik:</label>
+                        <label for="history" class="block text-gray-700 font-semibold mb-2">Uddyb gerne din historik:</label>
                         <textarea id="history" name="history" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:ring-0 focus:border-orange-200">{{ old('history') }}</textarea>
                     </div>
                     @error('has_history')
@@ -72,15 +72,15 @@
                     @enderror
 
                     <div class="mb-3">
-                        <label for="has_disease" class="block text-gray-700 font-semibold">Har du en sygdom?</label>
-                        <input type="hidden" name="has_disease" value="0">
-                        <input type="checkbox" id="has_disease" name="has_disease" value="1" class="mr-2 leading-tight focus:ring-white rounded-sm text-black" @if(old('has_disease')) checked @endif onchange="toggleVisibility('disease_div')">
+                        <label for="is_pregnant_or_breastfeeding" class="block text-gray-700 font-semibold">Er du gravid eller ammer du?</label>
+                        <input type="hidden" name="is_pregnant_or_breastfeeding" value="0">
+                        <input type="checkbox" id="is_pregnant_or_breastfeeding" name="is_pregnant_or_breastfeeding" value="1" class="mr-2 leading-tight focus:ring-white rounded-sm text-black" @if(old('is_pregnant_or_breastfeeding')) checked @endif onchange="toggleVisibility('is_pregnant_or_breastfeeding_div')">
                     </div>
-                    <div class="mb-4 @if(!old('has_disease')) hidden @endif" id="disease_div">
-                        <label for="disease" class="block text-gray-700 font-semibold mb-2">Sygdom:</label>
-                        <textarea id="disease" name="disease" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:ring-0 focus:border-orange-200">{{ old('disease') }}</textarea>
+                    <div class="mb-4 @if(!old('is_pregnant_or_breastfeeding')) hidden @endif" id="is_pregnant_or_breastfeeding_div">
+                        <label for="pregnancy_details" class="block text-gray-700 font-semibold mb-2">Uddyb gerne din graviditet eller amning:</label>
+                        <textarea id="pregnancy_details" name="pregnancy_details" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:ring-0 focus:border-orange-200">{{ old('pregnancy_details') }}</textarea>
                     </div>
-                    @error('has_disease')
+                    @error('is_pregnant_or_breastfeeding')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
 
@@ -90,7 +90,7 @@
                         <input type="checkbox" id="has_allergy" name="has_allergy" value="1" class="mr-2 leading-tight focus:ring-white rounded-sm text-black" @if(old('has_allergy')) checked @endif onchange="toggleVisibility('allergy_div')">
                     </div>
                     <div class="mb-4 @if(!old('has_allergy')) hidden @endif" id="allergy_div">
-                        <label for="allergy" class="block text-gray-700 font-semibold mb-2">Allergier:</label>
+                        <label for="allergy" class="block text-gray-700 font-semibold mb-2">Angiv venligst dine allergier:</label>
                         <textarea id="allergy" name="allergy" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:ring-0 focus:border-orange-200">{{ old('allergy') }}</textarea>
                     </div>
                     @error('has_allergy')
@@ -103,7 +103,7 @@
                         <input type="checkbox" id="had_previous_treatments" name="had_previous_treatments" value="1" class="mr-2 leading-tight focus:ring-white rounded-sm text-black" @if(old('had_previous_treatments')) checked @endif onchange="toggleVisibility('previous_treatments_div')">
                     </div>
                     <div class="mb-4 @if(!old('had_previous_treatments')) hidden @endif" id="previous_treatments_div">
-                        <label for="previous_treatments" class="block text-gray-700 font-semibold mb-2">Tidligere behandlinger:</label>
+                        <label for="previous_treatments" class="block text-gray-700 font-semibold mb-2">Uddyb gerne dine tidligere behandlinger:</label>
                         <textarea id="previous_treatments" name="previous_treatments" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:ring-0 focus:border-orange-200">{{ old('previous_treatments') }}</textarea>
                     </div>
                     @error('had_previous_treatments')
@@ -116,7 +116,7 @@
                         <input type="checkbox" id="has_medication" name="has_medication" value="1" class="mr-2 leading-tight focus:ring-white rounded-sm text-black" @if(old('has_medication')) checked @endif onchange="toggleVisibility('medication_div')">
                     </div>
                     <div class="mb-4 @if(!old('has_medication')) hidden @endif" id="medication_div">
-                        <label for="medication" class="block text-gray-700 font-semibold mb-2">Medicin?</label>
+                        <label for="medication" class="block text-gray-700 font-semibold mb-2">Angiv venligst preparat og styrke:</label>
                         <textarea id="medication" name="medication" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:ring-0 focus:border-orange-200">{{ old('medication') }}</textarea>
                     </div>
                     @error('has_medication')

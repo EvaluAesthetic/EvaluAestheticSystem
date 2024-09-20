@@ -33,11 +33,11 @@ class ClientFormController extends Controller
     {
         Log::debug('Store method called');
         $validator = Validator::make($request->all(), [
-            'treatment_wishes' => 'required',
+            'treatment_wishes' => 'required|string',
             'has_history' => 'required|boolean',
             'history' => 'nullable|string',
-            'disease' => 'nullable|string',
-            'has_disease' => 'required|boolean',
+            'pregnancy_details' => 'nullable|string',
+            'is_pregnant_or_breastfeeding' => 'required|boolean',
             'allergy' => 'nullable|string',
             'has_allergy' => 'required|boolean',
             'previous_treatments' => 'nullable|string',
@@ -57,10 +57,11 @@ class ClientFormController extends Controller
         try {
             ClientForm::create([
                 'client_id' => Auth::user()->clients->first()->id,
+                'treatment_wishes' => $request->treatment_wishes,
                 'has_history' => $request->has_history,
                 'history' => $request->history,
-                'disease' => $request->disease,
-                'has_disease' => $request->has_disease,
+                'pregnancy_details' => $request->pregnancy_details,
+                'is_pregnant_or_breastfeeding' => $request->is_pregnant_or_breastfeeding,
                 'allergy' => $request->allergy,
                 'has_allergy' => $request->has_allergy,
                 'previous_treatments' => $request->previous_treatments,

@@ -22,6 +22,7 @@ class UnevaluatedClientForms extends Component
                 $query->where('clinic_id', $this->clinicId);
                 })
                 ->doesntHave('evaluation')
+                ->orderBy('created_at', 'asc')
                 ->get();
         } else {
             $this->errorMessage = 'You are not authorized to view this content.';

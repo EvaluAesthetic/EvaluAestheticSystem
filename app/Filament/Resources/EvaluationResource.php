@@ -61,19 +61,17 @@ class EvaluationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client_form_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('clientForm.client.user.name')
+                    ->label('Klient')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('clinic_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('professional_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('professional.user.name')
+                    ->label('Behandler')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('approved_at')
+                    ->label('Godkendt')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

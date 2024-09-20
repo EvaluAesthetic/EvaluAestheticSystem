@@ -21,8 +21,8 @@ class ClientFormsTableSeeder extends Seeder
                     'treatment_wishes' => $faker->text(300),
                     'has_history' => $faker->boolean,
                     'history' => $faker->paragraph,
-                    'disease' => $faker->word,
-                    'has_disease' => $faker->boolean,
+                    'pregnancy_details' => $faker->word,
+                    'is_pregnant_or_breastfeeding' => $faker->boolean,
                     'has_allergy' => $faker->boolean,
                     'allergy' => $faker->word,
                     'had_previous_treatments' => $faker->boolean,
@@ -30,7 +30,7 @@ class ClientFormsTableSeeder extends Seeder
                     'medication' => $faker->word,
                     'has_medication' => $faker->boolean,
                     'occupation' => $faker->jobTitle,
-                    'video_path' => 'videos/NnGnd7styOnWkuE3qf8SbUqHlijCXPqrzxwrtG8U.mp4',
+                    'video_path' => 'videos/0xEuc1DNCMhlW8vseNEMSH8miH0xyj4ZgxfNH2eX.mp4',
                     'slug' => Str::slug($client->user->name),
                 ]);
             }

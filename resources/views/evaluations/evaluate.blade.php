@@ -4,28 +4,57 @@
 
         <!-- Client Form Details -->
         <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
-            <h2 class="text-lg font-semibold text-gray-700">Klient Detaljer</h2>
-            <p><strong class="text-gray-700">Navn:</strong> {{ $clientForm->client->user->name }}</p>
-            <p><strong class="text-gray-700">Mail:</strong> {{ $clientForm->client->user->email }}</p>
-            <p><strong class="text-gray-700">Telefon:</strong> {{ $clientForm->client->user->phone }}</p>
-            <p><strong class="text-gray-700">Fødsels dato:</strong> {{ $clientForm->client->user->formatBirthday('string')}}</p>
-            <p><strong class="text-gray-700">Ønsker til behandling:</strong> {{ $clientForm->treatment_wishes }}</p>
-            <p><strong class="text-gray-700">Historik: </strong>@if(!$clientForm->has_history)Ingen</p>
-            @else
-                <p>{{$clientForm->history}}</p>
-            @endif
+            <h2 class="text-lg font-semibold text-gray-700">Klient Oplysninger</h2>
+            <div class="grid grid-cols-2 gap-x-6 gap-y-2">
+                <p class="text-gray-900 text-base font-medium">{{ $clientForm->client->user->name }}</p>
+                <p class="text-gray-900 text-base font-medium"><strong class="text-gray-600 font-extrabold">Beskæftigelse:</strong> {{ $clientForm->occupation }}</p>
+                <p class="text-gray-900 text-base font-medium">{{ $clientForm->client->user->phone }}</p>
+                <p class="text-gray-900 text-base font-medium"><strong class="text-gray-600 font-bold">Fødselsdato:</strong> {{ $clientForm->client->user->formatBirthday('string') }}</p>
+                <p class="text-gray-900 text-base font-medium">{{ $clientForm->client->user->email }}</p>
+            </div>
 
-            <p><strong class="text-gray-700">Sygdomme: </strong>@if(!$clientForm->has_disease)Ingen @else{{$clientForm->disease}} @endif</p>
-            <p><strong class="text-gray-700">Allergier: </strong>@if(!$clientForm->has_allergy)Ingen @else{{$clientForm->allergy}} @endif</p>
-
-            <p><strong class="text-gray-700">Tidligere indgreb: </strong>@if(!$clientForm->had_previous_treatments)Ingen</p>
-            @else
-                <p>{{$clientForm->previous_treatments}}</p>
-            @endif
-
-            <p><strong class="text-gray-700">Allergier: </strong>@if(!$clientForm->has_medication)Ingen @else{{$clientForm->medication}} @endif</p>
-
-            <p><strong class="text-gray-700">Beskæftigelse:</strong> {{ $clientForm->occupation}}</p>
+            <!-- Medical Information Section -->
+            <div class="mt-6">
+                <h2 class="text-lg font-semibold text-gray-700">Klient Detaljer</h2>
+                <div class="space-y-2 my-2">
+                    <p><strong class="font-medium text-gray-700">Ønsker til behandling:</strong> {{ $clientForm->treatment_wishes }}</p>
+                    <p><strong class="font-medium text-gray-700">Historik:</strong>
+                        @if(!$clientForm->has_history)
+                            Ingen
+                        @else
+                            {{ $clientForm->history }}
+                        @endif
+                    </p>
+                    <p><strong class="font-medium text-gray-700">Graviditet eller amning:</strong>
+                        @if(!$clientForm->is_pregnant_or_breastfeeding)
+                            Ingen
+                        @else
+                            {{ $clientForm->pregnancy_details }}
+                        @endif
+                    </p>
+                    <p><strong class="font-medium text-gray-700">Allergier:</strong>
+                        @if(!$clientForm->has_allergy)
+                            Ingen
+                        @else
+                            {{ $clientForm->allergy }}
+                        @endif
+                    </p>
+                    <p><strong class="font-medium text-gray-700">Tidligere indgreb:</strong>
+                        @if(!$clientForm->had_previous_treatments)
+                            Ingen
+                        @else
+                            {{ $clientForm->previous_treatments }}
+                        @endif
+                    </p>
+                    <p><strong class="font-medium text-gray-700">Medicin:</strong>
+                        @if(!$clientForm->has_medication)
+                            Ingen
+                        @else
+                            {{ $clientForm->medication }}
+                        @endif
+                    </p>
+                </div>
+            </div>
             <div class="mt-6">
                 <h2 class="text-lg font-semibold mb-3 text-gray-700">Video: </h2>
                     <video controls class="w-full rounded-lg shadow-md">
@@ -51,12 +80,12 @@
             @if(!$evaluation || $evaluation->status == 1)
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-medium text-gray-700">Objektive fund</label>
-                    <textarea id="description" name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('description', $evaluation && $evaluation->plans->last() ? $evaluation->plans->last()->description : '') }}</textarea>
+                    <textarea id="description" name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('description', $evaluation && $evaluation->plans->last() ? $evaluation->plans->last()->description : 'Normal trofik, symmetri og mimik. Dynamiske rynker i øvre og nedre ansigt.') }}</textarea>
                 </div>
 
                 <div class="mb-4">
                     <label for="plan" class="block text-sm font-medium text-gray-700">Plan</label>
-                    <textarea id="plan" name="plan" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('plan', $evaluation && $evaluation->plans->last() ? $evaluation->plans->last()->plan : '') }}</textarea>
+                    <textarea id="description" name="description" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('description', $evaluation && $evaluation->plans->last() ? $evaluation->plans->last()->description : "Kosmetisk behandling for rynker/furer med Azzalure. \n\nRp. Azzalure(antal U, vurderes af behandler) i øvre og nedre ansigt") }}</textarea>
                 </div>
             @endif
 

@@ -19,7 +19,7 @@
                 <!-- Adjusted grid for medical and other details -->
                 <div class="grid grid-cols-3 gap-y-4 text-lg text-gray-900">
                     <div><span class="font-semibold">Historik:</span> <span class="font-normal">{{ $evaluation->clientForm->has_history ? $evaluation->clientForm->history : 'Ingen' }}</span></div>
-                    <div><span class="font-semibold">Sygdomme:</span> <span class="font-normal">{{ $evaluation->clientForm->has_disease ? $evaluation->clientForm->disease : 'Ingen' }}</span></div>
+                    <div><span class="font-semibold">Sygdomme:</span> <span class="font-normal">{{ $evaluation->clientForm->is_pregnant_or_breastfeeding ? $evaluation->clientForm->pregnancy_details : 'Ingen' }}</span></div>
                     <div><span class="font-semibold">Allergier:</span> <span class="font-normal">{{ $evaluation->clientForm->has_allergy ? $evaluation->clientForm->allergy : 'Ingen' }}</span></div>
                     <div><span class="font-semibold">Tidligere indgreb:</span> <span class="font-normal">{{ $evaluation->clientForm->had_previous_treatments ? $evaluation->clientForm->previous_treatments : 'Ingen' }}</span></div>
                     <div><span class="font-semibold">Medicin:</span> <span class="font-normal">{{ $evaluation->clientForm->has_medication ? $evaluation->clientForm->medication : 'Ingen' }}</span></div>
@@ -62,7 +62,7 @@
             Evaluation Date: {{ $evaluation->approved_at->format('d M, Y, H:i') }}
 
             Historik: {{ $evaluation->clientForm->has_history ? $evaluation->clientForm->history : 'Ingen' }}
-            Sygdomme: {{ $evaluation->clientForm->has_disease ? $evaluation->clientForm->disease : 'Ingen' }}
+            Graviditet eller amning: {{ $evaluation->clientForm->is_pregnant_or_breastfeeding ? $evaluation->clientForm->pregnancy_details : 'Ingen' }}
             Allergier: {{ $evaluation->clientForm->has_allergy ? $evaluation->clientForm->allergy : 'Ingen' }}
             Tidligere indgreb: {{ $evaluation->clientForm->had_previous_treatments ? $evaluation->clientForm->previous_treatments : 'Ingen' }}
             Medicin: {{ $evaluation->clientForm->has_medication ? $evaluation->clientForm->medication : 'Ingen' }}
