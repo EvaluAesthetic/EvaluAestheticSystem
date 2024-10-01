@@ -37,7 +37,7 @@ class ClientsTableSeeder extends Seeder
             'user_id' => 7,
             'clinic_id' => 1,
         ]);
-        foreach (range(10, 19) as $index) {
+        foreach (range(10, 20) as $index) {
             DB::table('clients')->insert([
                 'user_id' => $index,
                 'clinic_id' => 2,

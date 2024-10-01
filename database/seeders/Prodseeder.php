@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,7 +32,7 @@ class Prodseeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'admin@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1986-07-28',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('SuperAdmin2906'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -46,7 +47,7 @@ class Prodseeder extends Seeder
             'name' => 'Klinik Admin',
             'email' => 'klinikadmin@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1981-03-13',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('KlinikAdminBruger'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -62,11 +63,22 @@ class Prodseeder extends Seeder
 
         //Klient brugere
         foreach (range(1, 20) as $index) {
+
+            $birthday = $faker->dateTimeBetween('-50 years', '-18 years');
+            $day = str_pad($birthday->format('d'), 2, '0', STR_PAD_LEFT);
+            $month = str_pad($birthday->format('m'), 2, '0', STR_PAD_LEFT);
+            $year = substr($birthday->format('Y'), -2);
+
+
+            $lastFourDigits = str_pad($faker->numberBetween(0, 9999), 4, '0', STR_PAD_LEFT);
+
+
+            $cprNumber = "{$day}{$month}{$year}-{$lastFourDigits}";
             DB::table('users')->insert([
                 'name' => 'Klient Bruger' . $index,
                 'email' => 'klient' . $index . '@test.com',
                 'phone' => $faker->e164PhoneNumber(),
-                'birthday' => $faker->date(),
+                'cpr' => Crypt::encryptString($cprNumber),
                 'password' => Hash::make('Klientbruger'), // or $faker->password,
                 'email_verified_at' => now(),
                 'approved_at' => now(),
@@ -83,11 +95,21 @@ class Prodseeder extends Seeder
 
         //Arbejder bruger
         foreach (range(1, 10) as $index) {
+            $birthday = $faker->dateTimeBetween('-50 years', '-18 years');
+            $day = str_pad($birthday->format('d'), 2, '0', STR_PAD_LEFT);
+            $month = str_pad($birthday->format('m'), 2, '0', STR_PAD_LEFT);
+            $year = substr($birthday->format('Y'), -2);
+
+
+            $lastFourDigits = str_pad($faker->numberBetween(0, 9999), 4, '0', STR_PAD_LEFT);
+
+
+            $cprNumber = "{$day}{$month}{$year}-{$lastFourDigits}";
             DB::table('users')->insert([
                 'name' => 'Behandler Bruger' . $index,
                 'email' => 'behandler' . $index . '@test.com',
                 'phone' => $faker->e164PhoneNumber(),
-                'birthday' => $faker->date(),
+                'cpr' => Crypt::encryptString($cprNumber),
                 'password' => Hash::make('Behandlerbruger'), // or $faker->password,
                 'email_verified_at' => now(),
                 'approved_at' => now(),

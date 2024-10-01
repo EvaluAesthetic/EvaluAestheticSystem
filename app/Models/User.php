@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Panel;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -31,9 +32,9 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'email',
         'password',
         'phone',
-        'birthday',
         'email_verified_at',
         'approved_at',
+        'cpr',
     ];
 
     /**
@@ -85,21 +86,42 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->hasOne(Professional::class, 'user_id', 'id');
     }
 
-    public function formatBirthday(string $type = null){
-        if(!$this->birthday){
+    public function formatBirthday(string $type = null)
+    {
+        $cpr = $this->getCprAttribute($this->cpr);
+
+        if (!$cpr) {
             return null;
         }
-        if($type === 'string'){
-            $date = Carbon::parse($this->birthday)->locale('da');
 
+        $birthDateString = substr($cpr, 0, 6);
+        if (strlen($birthDateString) !== 6) {
+            return null;
+        }
+
+        $day = substr($birthDateString, 0, 2);
+        $month = substr($birthDateString, 2, 2);
+        $year = substr($birthDateString, 4, 2);
+
+        $cutoff = 50;
+        $yearPrefix = ($year >= $cutoff) ? '19' : '20';
+        $year = $yearPrefix . $year;
+
+        $date = Carbon::createFromDate($year, $month, $day);
+
+        if (!$date) {
+            return null;
+        }
+
+        if ($type === 'string') {
             $day = $date->day;
             $month = $date->translatedFormat('F');
             $year = $date->year;
 
             return "{$day}. {$month}, {$year}";
         }
-        $date = Carbon::parse($this->birthday)->format('d/m/Y');
-        return $date;
+
+        return $date->format('d/m/Y');
     }
 
     public function hasRole($roleId = null): bool
@@ -143,5 +165,19 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return User::whereHas('roles', function ($query) use ($roleId) {
             $query->where('role_id', $roleId);
         })->get();
+    }
+
+    public function setCprAttribute($cpr)
+    {
+        $this->attributes['cpr'] = Crypt::encryptString($cpr);
+    }
+
+    public function getCprAttribute($value)
+    {
+        if ($this->hasRole([2, 3])) {
+            return Crypt::decryptString($value);
+        }
+
+        return null;
     }
 }

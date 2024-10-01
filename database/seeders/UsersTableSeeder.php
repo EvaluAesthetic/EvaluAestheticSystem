@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
@@ -15,7 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Clinic Admin',
             'email' => 'test@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1986-07-28',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -24,7 +25,7 @@ class UsersTableSeeder extends Seeder
             'name' =>  $faker->name . ' Client',
             'email' => 'test2@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1966-04-22',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -34,7 +35,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Professional',
             'email' => 'test3@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1996-02-23',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -43,7 +44,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Client',
             'email' => 'test4@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1980-10-15',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -52,7 +53,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Client',
             'email' => 'test5@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1990-12-24',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -61,7 +62,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Client',
             'email' => 'test6@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1977-11-23',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -70,7 +71,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Client',
             'email' => 'test7@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1994-03-25',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -79,7 +80,7 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Admin',
             'email' => 'admin@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1977-07-22',
+            'cpr' => Crypt::encryptString('000000-0000'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
@@ -89,22 +90,36 @@ class UsersTableSeeder extends Seeder
             'name' => $faker->name . ' Admin Another Clinic',
             'email' => 'clinicAdmin@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1977-07-22',
+            'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
         ]);
 
 
-        foreach (range(1, 10) as $index) {
+        $numUsers = 10;
+
+        for ($i = 0; $i < $numUsers; $i++) {
+
+            $birthday = $faker->dateTimeBetween('-50 years', '-18 years');
+            $day = str_pad($birthday->format('d'), 2, '0', STR_PAD_LEFT);
+            $month = str_pad($birthday->format('m'), 2, '0', STR_PAD_LEFT);
+            $year = substr($birthday->format('Y'), -2);
+
+
+            $lastFourDigits = str_pad($faker->numberBetween(0, 9999), 4, '0', STR_PAD_LEFT);
+
+
+            $cprNumber = "{$day}{$month}{$year}-{$lastFourDigits}";
+
             DB::table('users')->insert([
-                'name' => $faker->name . ' Client',
-                'email' => 'clinic' . $index . '@test.com',
+                'name' => $faker->name . ' Clinic Admin',
+                'email' => $faker->unique()->safeEmail,
                 'phone' => $faker->e164PhoneNumber(),
-                'birthday' => $faker->date(),
-                'password' => Hash::make('password'), // or $faker->password,
-                'email_verified_at' => $faker->dateTime(),
-                'approved_at' => $faker->dateTime(),
+                'cpr' => Crypt::encryptString($cprNumber),
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'approved_at' => now(),
             ]);
         }
 
@@ -112,7 +127,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Test Professional Another Clinic',
             'email' => 'clinicWorker@test.com',
             'phone' => $faker->e164PhoneNumber(),
-            'birthday' => '1977-07-22',
+            'cpr' => Crypt::encryptString('222222-2222'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
             'approved_at' => now(),
