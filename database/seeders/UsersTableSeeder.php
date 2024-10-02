@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Clinic Admin',
             'email' => 'test@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' =>  $faker->name . ' Client',
             'email' => 'test2@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Professional',
             'email' => 'test3@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -43,7 +43,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Client',
             'email' => 'test4@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -52,7 +52,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Client',
             'email' => 'test5@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Client',
             'email' => 'test6@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -70,7 +70,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Client',
             'email' => 'test7@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -79,7 +79,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Admin',
             'email' => 'admin@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('000000-0000'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -89,7 +89,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => $faker->name . ' Admin Another Clinic',
             'email' => 'clinicAdmin@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('111111-1111'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
@@ -115,7 +115,7 @@ class UsersTableSeeder extends Seeder
             DB::table('users')->insert([
                 'name' => $faker->name . ' Clinic Admin',
                 'email' => $faker->unique()->safeEmail,
-                'phone' => $faker->e164PhoneNumber(),
+                'phone' => '61461766',
                 'cpr' => Crypt::encryptString($cprNumber),
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
@@ -126,7 +126,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Test Professional Another Clinic',
             'email' => 'clinicWorker@test.com',
-            'phone' => $faker->e164PhoneNumber(),
+            'phone' => '61461766',
             'cpr' => Crypt::encryptString('222222-2222'),
             'password' => Hash::make('password'), // You can change 'password' to your desired password
             'email_verified_at' => now(),
